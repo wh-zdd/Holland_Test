@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>霍兰德职业兴趣测试</title>
+    <style>
+        /* 全局样式 */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        /* 头部样式 */
+        .header {
+            background: linear-gradient(135deg, var(--dark-color), #34495e);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        /* 说明区域 */
+        .instructions {
+            background: var(--light-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .instructions h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions h3 i {
+            font-size: 1.2rem;
+        }
+
+        .rating-scale {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .scale-item {
+            background: white;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .scale-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .scale-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .scale-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* 测试内容区域 */
+        .test-content {
+            padding: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .section-header.type-I { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .section-header.type-A { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .section-header.type-S { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .section-header.type-E { background: linear-gradient(135deg, #f39c12, #d35400); }
+        .section-header.type-C { background: linear-gradient(135deg, #1abc9c, #16a085); }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .type-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1rem;
+        }
+
+        /* 问题卡片 */
+        .question-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+            transition: var(--transition);
+        }
+
+        .question-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            background: var(--primary-color);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--dark-color);
+            line-height: 1.4;
+        }
+
+        /* 选项样式 - 修复后的样式 */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .option-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 0.5rem;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            user-select: none;
+        }
+
+        .option-label:hover {
+            background: #e9ecef;
+            border-color: var(--primary-color);
+        }
+
+        .option-label.selected {
+            background: #e3f2fd;
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+        }
+
+        .option-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .option-text {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .radio-input {
+            display: none;
+        }
+
+        /* 控制栏 */
+        .controls {
+            background: white;
+            padding: 1.5rem;
+            border-top: 1px solid #e9ecef;
+            position: sticky;
+            bottom: 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .progress-container {
+            flex: 1;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--secondary-color), #27ae60);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .section-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .options-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .progress-container {
+                width: 100%;
+            }
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 结果展示区域 */
+        .result-container {
+            display: none;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            margin: 1.5rem;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .result-header h2 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .primary-type {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .type-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .score-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-card.highlight {
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin: 0.5rem 0;
+        }
+
+        .restart-btn {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .restart-btn:hover {
+            background: #e67e22;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>霍兰德职业兴趣测试</h1>
+            <p class="subtitle">探索您的职业兴趣类型，找到适合您的职业方向</p>
+        </div>
+        
+        <div class="instructions">
+            <h3><i>💡</i> 测试说明</h3>
+            <p>本测试基于霍兰德职业兴趣理论，通过评估您对60种不同类型活动的喜好程度，帮助您了解自己的职业兴趣倾向。</p>
+            <p>请根据您的真实感受，对每个活动进行评分：</p>
+            
+            <div class="rating-scale" id="ratingScale">
+                <!-- 评分尺度将通过JavaScript生成 -->
+            </div>
+        </div>
+        
+        <div class="test-content" id="testContent">
+            <!-- 测试题目将通过JavaScript动态生成 -->
+        </div>
+        
+        <div class="controls">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span>完成进度: <span id="progressText">0%</span></span>
+                    <span>已答: <span id="answeredCount">0</span>/<span id="totalCount">60</span></span>
+                </div>
+            </div>
+            <button class="submit-btn" id="submitBtn" disabled>
+                <span>提交测试</span>
+                <span>✓</span>
+            </button>
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <!-- 结果将在这里显示 -->
+        </div>
+    </div>
+    
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // 定义霍兰德测试数据结构和逻辑
+        class HollandTest {
+            constructor() {
+                this.userAnswers = new Map();
+                this.testData = [];
+                this.currentSelections = new Array(60).fill(0); // 初始化为0，表示未选择
+                this.initializeData();
+                this.initializeUI();
+            }
+            
+            initializeData() {
+                // 定义评分选项
+                this.ratingOptions = [
+                    { value: 1, label: '非常不喜欢' },
+                    { value: 2, label: '不喜欢' },
+                    { value: 3, label: '不确定' },
+                    { value: 4, label: '喜欢' },
+                    { value: 5, label: '非常喜欢' }
+                ];
+                
+                // 定义测试类型
+                this.types = [
+                    { code: 'R', name: '实际型', desc: '喜欢动手操作、机械、技术类工作', color: '#e74c3c' },
+                    { code: 'I', name: '研究型', desc: '喜欢思考、研究、分析的工作', color: '#3498db' },
+                    { code: 'A', name: '艺术型', desc: '喜欢创造、表达、艺术性的工作', color: '#9b59b6' },
+                    { code: 'S', name: '社会型', desc: '喜欢帮助、教育、服务他人的工作', color: '#2ecc71' },
+                    { code: 'E', name: '企业型', desc: '喜欢领导、销售、管理的工作', color: '#f39c12' },
+                    { code: 'C', name: '常规型', desc: '喜欢有条理、系统化、细致的工作', color: '#1abc9c' }
+                ];
+                
+                // 模拟从Excel加载的测试数据
+                this.loadTestData();
+            }
+            
+            loadTestData() {
+                // 模拟Excel数据结构
+                const excelData = `
+                    实际型（R）活动
+                    1|修理自行车、电器|R
+                    2|使用万用表、螺丝刀等工具|R
+                    3|操作机床、机械设备|R
+                    4|驾驶汽车、卡车|R
+                    5|组装家具或模型|R
+                    6|进行木工、焊接|R
+                    7|阅读技术手册、图纸|R
+                    8|种植花草、养殖动物|R
+                    9|进行户外勘探、测量|R
+                    10|维护和修理房屋|R
+                    研究型（I）活动
+                    11|在实验室做实验|I
+                    12|研究科学理论|I
+                    13|解数学难题、逻辑游戏|I
+                    14|分析数据、制作图表|I
+                    15|阅读学术期刊、论文|I
+                    16|使用显微镜、望远镜观测|I
+                    17|编写计算机程序|I
+                    18|研究动植物分类|I
+                    19|探讨哲学问题|I
+                    20|设计复杂的模型|I
+                    艺术型（A）活动
+                    21|绘画、素描|A
+                    22|演奏乐器、作曲|A
+                    23|写作诗歌、小说|A
+                    24|设计海报、服装|A
+                    25|表演戏剧、舞蹈|A
+                    26|摄影、拍摄影片|A
+                    27|陶艺、雕刻|A
+                    28|欣赏艺术展览|A
+                    29|室内装饰设计|A
+                    30|创意烹饪、糕点制作|A
+                    社会型（S）活动
+                    31|帮助他人解决问题|S
+                    32|照顾病人、儿童|S
+                    33|教导别人知识技能|S
+                    34|参加志愿服务|S
+                    35|调解他人矛盾|S
+                    36|组织集体活动|S
+                    37|与陌生人轻松交谈|S
+                    38|给予他人情感支持|S
+                    39|在社团中担任职务|S
+                    40|为公益事业筹款|S
+                    企业型（E）活动
+                    41|推销产品或想法|E
+                    42|领导团队完成项目|E
+                    43|策划商业活动|E
+                    44|进行投资分析|E
+                    45|参加辩论、演讲比赛|E
+                    46|创业、开办公司|E
+                    47|管理员工、分配任务|E
+                    48|分析市场趋势|E
+                    49|争取职位晋升|E
+                    50|进行商务谈判|E
+                    常规型（C）活动
+                    51|整理文件、归档|C
+                    52|核对数据、确保准确|C
+                    53|操作办公软件处理文档|C
+                    54|制定详细工作计划|C
+                    55|记录会议纪要|C
+                    56|按照流程操作办公设备|C
+                    57|编制财务报表|C
+                    58|维护数据库信息|C
+                    59|撰写规范的工作报告|C
+                    60|执行标准化作业流程|C
+                `.trim().split('\n');
+                
+                let currentType = null;
+                this.testData = [];
+                
+                excelData.forEach(line => {
+                    if (line.includes('实际型')) currentType = 'R';
+                    else if (line.includes('研究型')) currentType = 'I';
+                    else if (line.includes('艺术型')) currentType = 'A';
+                    else if (line.includes('社会型')) currentType = 'S';
+                    else if (line.includes('企业型')) currentType = 'E';
+                    else if (line.includes('常规型')) currentType = 'C';
+                    else {
+                        const parts = line.split('|');
+                        if (parts.length >= 3) {
+                            this.testData.push({
+                                id: parseInt(parts[0]),
+                                text: parts[1],
+                                type: parts[2]
+                            });
+                        }
+                    }
+                });
+            }
+            
+            initializeUI() {
+                this.renderRatingScale();
+                this.renderTestSections();
+                this.attachEventListeners();
+                this.updateProgress();
+            }
+            
+            renderRatingScale() {
+                const ratingScale = document.getElementById('ratingScale');
+                ratingScale.innerHTML = this.ratingOptions.map(option => `
+                    <div class="scale-item">
+                        <div class="scale-value">${option.value}</div>
+                        <div class="scale-label">${option.label}</div>
+                    </div>
+                `).join('');
+            }
+            
+            renderTestSections() {
+                const testContent = document.getElementById('testContent');
+                testContent.innerHTML = ''; // 清空内容
+                
+                this.types.forEach(type => {
+                    const typeQuestions = this.testData.filter(q => q.type === type.code);
+                    
+                    if (typeQuestions.length === 0) return;
+                    
+                    const sectionHTML = `
+                        <div class="section">
+                            <div class="section-header type-${type.code}" onclick="window.hollandTest.toggleSection('${type.code}')">
+                                <div class="section-title">
+                                    <span class="type-badge">${type.code}</span>
+                                    <span>${type.name} (${type.code})</span>
+                                    <small>${type.desc}</small>
+                                </div>
+                                <div class="toggle-icon">−</div>
+                            </div>
+                            <div class="section-content" id="section-${type.code}">
+                                ${typeQuestions.map(question => `
+                                    <div class="question-card" id="question-${question.id}">
+                                        <div class="question-header">
+                                            <div class="question-number">${question.id}</div>
+                                            <div class="question-text">${question.text}</div>
+                                        </div>
+                                        <div class="options-grid">
+                                            ${this.ratingOptions.map(option => `
+                                                <label class="option-label" onclick="window.hollandTest.selectAnswer(${question.id}, ${option.value})">
+                                                    <input type="radio" 
+                                                           class="radio-input" 
+                                                           name="q${question.id}" 
+                                                           value="${option.value}">
+                                                    <div class="option-value">${option.value}</div>
+                                                    <div class="option-text">${option.label}</div>
+                                                </label>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    
+                    testContent.innerHTML += sectionHTML;
+                });
+                
+                // 设置总题目数
+                document.getElementById('totalCount').textContent = this.testData.length;
+            }
+            
+            toggleSection(typeCode) {
+                const section = document.getElementById(`section-${typeCode}`);
+                const icon = document.querySelector(`.section-header.type-${typeCode} .toggle-icon`);
+                
+                if (section.style.display === 'none') {
+                    section.style.display = 'grid';
+                    icon.textContent = '−';
+                } else {
+                    section.style.display = 'none';
+                    icon.textContent = '+';
+                }
+            }
+            
+            // 修复的selectAnswer方法
+            selectAnswer(questionId, value) {
+                console.log(`选择题目 ${questionId}, 值 ${value}`);
+                
+                // 更新当前选择
+                this.currentSelections[questionId - 1] = value;
+                
+                // 找到对应的题目卡片
+                const questionCard = document.getElementById(`question-${questionId}`);
+                if (!questionCard) {
+                    console.error(`找不到题目 ${questionId} 的卡片`);
+                    return;
+                }
+                
+                // 更新所有选项的选中状态
+                const options = questionCard.querySelectorAll('.option-label');
+                options.forEach(option => {
+                    const optionValue = parseInt(option.querySelector('.option-value').textContent);
+                    const radioInput = option.querySelector('input[type="radio"]');
+                    
+                    if (optionValue === value) {
+                        option.classList.add('selected');
+                        radioInput.checked = true;
+                    } else {
+                        option.classList.remove('selected');
+                        radioInput.checked = false;
+                    }
+                });
+                
+                // 更新进度
+                this.updateProgress();
+                
+                // 调试信息
+                console.log(`题目 ${questionId}: 选择了 ${value}`);
+                console.log('当前选择数组:', this.currentSelections);
+            }
+            
+            updateProgress() {
+                const answered = this.currentSelections.filter(v => v > 0).length;
+                const total = this.testData.length;
+                const percentage = Math.round((answered / total) * 100);
+                
+                document.getElementById('answeredCount').textContent = answered;
+                document.getElementById('progressText').textContent = `${percentage}%`;
+                document.getElementById('progressFill').style.width = `${percentage}%`;
+                
+                // 更新提交按钮状态
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = answered < total;
+                
+                // 如果全部完成，高亮提交按钮
+                if (answered === total) {
+                    submitBtn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+                }
+            }
+            
+            calculateResults() {
+                const typeScores = {
+                    'R': 0, 'I': 0, 'A': 0, 'S': 0, 'E': 0, 'C': 0
+                };
+                
+                // 计算各类型总分
+                this.testData.forEach(question => {
+                    const score = this.currentSelections[question.id - 1];
+                    if (score > 0) {
+                        typeScores[question.type] += score;
+                    }
+                });
+                
+                // 排序类型
+                const sortedTypes = Object.entries(typeScores)
+                    .sort(([,a], [,b]) => b - a)
+                    .map(([type, score]) => ({ type, score }));
+                
+                return { typeScores, sortedTypes };
+            }
+            
+            showResults() {
+                const results = this.calculateResults();
+                
+                // 构建结果HTML
+                const primaryType = results.sortedTypes[0];
+                const typeInfo = this.types.find(t => t.code === primaryType.type);
+                
+                let resultsHTML = `
+                    <div class="result-header">
+                        <h2>霍兰德测试结果</h2>
+                        <p>基于您的选择，以下是您的职业兴趣类型分析</p>
+                    </div>
+                    
+                    <div class="primary-type">
+                        <h3>您的首要兴趣类型</h3>
+                        <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0;">${typeInfo.name} (${typeInfo.code})</div>
+                        <p>${typeInfo.desc}</p>
+                    </div>
+                    
+                    <div class="type-scores">
+                `;
+                
+                results.sortedTypes.forEach(item => {
+                    const info = this.types.find(t => t.code === item.type);
+                    const percentage = Math.round((item.score / 50) * 100);
+                    const isPrimary = item.type === primaryType.type;
+                    
+                    resultsHTML += `
+                        <div class="score-card ${isPrimary ? 'highlight' : ''}">
+                            <div style="font-size: 0.9rem; color: #666;">${info.name}</div>
+                            <div class="score-value">${item.score}</div>
+                            <div style="font-size: 0.9rem; color: #666;">
+                                ${percentage}% (${item.score}/50)
+                            </div>
+                            <div style="height: 8px; background: #e9ecef; border-radius: 4px; margin-top: 0.5rem; overflow: hidden;">
+                                <div style="height: 100%; width: ${percentage}%; background: ${info.color}; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                resultsHTML += `
+                    </div>
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="restart-btn" onclick="window.hollandTest.restartTest()">重新测试</button>
+                    </div>
+                `;
+                
+                document.getElementById('resultContainer').innerHTML = resultsHTML;
+                document.getElementById('resultContainer').style.display = 'block';
+                
+                // 滚动到结果区域
+                document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+                
+                // 输出结果到控制台（供Coze工作流使用）
+                console.log('霍兰德测试结果数组:', this.currentSelections);
+                
+                // 输出到全局变量（供Coze工作流提取）
+                window.Holland_Test_Result = this.currentSelections;
+                
+                // 触发自定义事件，通知外部系统
+                const event = new CustomEvent('holland-test-completed', {
+                    detail: {
+                        Holland_Test_Result: this.currentSelections,
+                        typeScores: results.typeScores,
+                        primaryType: primaryType
+                    }
+                });
+                window.dispatchEvent(event);
+            }
+            
+            submitTest() {
+                const answered = this.currentSelections.filter(v => v > 0).length;
+                const total = this.testData.length;
+                
+                if (answered < total) {
+                    alert(`您还有 ${total - answered} 道题目未完成，请完成所有题目后再提交。`);
+                    return;
+                }
+                
+                // 验证所有选择都在1-5之间
+                for (let i = 0; i < this.currentSelections.length; i++) {
+                    const score = this.currentSelections[i];
+                    if (score < 1 || score > 5) {
+                        alert(`第 ${i + 1} 题的选择无效，请选择1-5之间的评分。`);
+                        return;
+                    }
+                }
+                
+                // 显示加载动画
+                document.getElementById('loading').style.display = 'flex';
+                
+                // 模拟计算过程
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                    this.showResults();
+                }, 1000);
+            }
+            
+            restartTest() {
+                // 重置所有数据
+                this.currentSelections = new Array(60).fill(0);
+                this.userAnswers.clear();
+                
+                // 重置UI
+                document.querySelectorAll('.option-label').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                
+                // 隐藏结果
+                document.getElementById('resultContainer').style.display = 'none';
+                
+                // 重置进度
+                this.updateProgress();
+                
+                // 滚动到顶部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // 清除全局变量
+                window.Holland_Test_Result = null;
+            }
+            
+            attachEventListeners() {
+                // 提交按钮事件
+                document.getElementById('submitBtn').addEventListener('click', () => {
+                    this.submitTest();
+                });
+                
+                // 键盘快捷键支持
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !document.getElementById('submitBtn').disabled) {
+                        this.submitTest();
+                    }
+                });
+            }
+        }
+        
+        // 初始化霍兰德测试
+        let hollandTest;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            hollandTest = new HollandTest();
+            
+            // 暴露给全局
+            window.hollandTest = hollandTest;
+            
+            // 监听测试完成事件
+            window.addEventListener('holland-test-completed', (event) => {
+                console.log('霍兰德测试完成，结果:', event.detail);
+            });
+        });
+        
+        // 供Coze工作流调用的接口函数
+        function getHollandTestResult() {
+            if (!window.hollandTest) {
+                return {
+                    success: false,
+                    error: '测试未初始化',
+                    Holland_Test_Result: []
+                };
+            }
+            
+            const selections = window.hollandTest.currentSelections;
+            const answered = selections.filter(v => v > 0).length;
+            
+            if (answered < 60) {
+                return {
+                    success: false,
+                    error: `还有 ${60 - answered} 道题目未完成`,
+                    Holland_Test_Result: []
+                };
+            }
+            
+            // 计算类型分数
+            const results = window.hollandTest.calculateResults();
+            
+            return {
+                success: true,
+                Holland_Test_Result: selections,
+                typeScores: results.typeScores,
+                sortedTypes: results.sortedTypes,
+                answeredCount: answered,
+                totalCount: 60
+            };
+        }
+        
+        // 模拟用户完成测试的函数（用于测试）
+        function simulateCompleteTest() {
+            // 随机生成测试答案
+            const randomSelections = Array.from({length: 60}, () => Math.floor(Math.random() * 5) + 1);
+            
+            // 设置所有答案
+            randomSelections.forEach((score, index) => {
+                const questionId = index + 1;
+                hollandTest.selectAnswer(questionId, score);
+            });
+            
+            // 提交测试
+            setTimeout(() => {
+                hollandTest.submitTest();
+            }, 500);
+        }
+        
+        // 测试函数 - 点击这里可以模拟完成测试
+        function testSelectAnswer() {
+            // 测试选择第一题的选项
+            hollandTest.selectAnswer(1, 3);
+            console.log('测试：选择了题目1，值为3');
+        }
+    </script>
+</body>
+</html>
